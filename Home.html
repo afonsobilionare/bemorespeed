@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSM - Store</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="./2.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilo geral */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #181818;
+            color: #fff;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            display: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .content.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Estilos para as telas */
+        .home {
+            background: linear-gradient(145deg, #2a9d8f, #264653);
+        }
+
+        .settings {
+            background: linear-gradient(145deg, #27ae60, #16a085);
+        }
+
+        /* Estilo para a barra de navegação inferior */
+        .bottom-tabs {
+            display: flex;
+            justify-content: space-around;
+            background-color: #2c3e50;
+            padding: 10px;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .tab {
+            text-align: center;
+            flex: 1;
+            cursor: pointer;
+            position: relative;
+            padding: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .tab:hover {
+            color: #1abc9c;
+        }
+
+        .tab.active {
+            font-weight: bold;
+            border-bottom: 2px solid #1abc9c;
+        }
+
+        /* Animação de slide da barra de navegação */
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* Efeito de transição nas abas */
+        .tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: #1abc9c;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .tab.active::after {
+            width: 100%;
+        }
+
+        /* Estilo do botão */
+        .button {
+            color: #FFFFFF;
+            background-color: #1877F2;
+            height: 40px;
+            width: 200px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            background-color: #0E5B9D;
+        }
+
+        .button-link {
+            text-decoration: none;
+        }
+
+        /* Estilo para a contagem de downloads */
+        .downloads-count {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #FFFFFF;
+        }
+
+        /* Imagens */
+        img {
+            border-radius: 12px;
+            width: 80%;
+            height: auto;
+        }
+
+        #containerall {
+            background: linear-gradient(135deg, #1abc9c, #0a1d37);
+            font-family: 'Arial', sans-serif;
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            height: 92%;
+            width: 380px;
+            text-align: center;
+            border: 2px solid #0a1d37;
+            color: 'black';
+        }
+
+        .containera1 {
+            background: linear-gradient(135deg, #1abc9c, #0a1d37);
+            font-family: 'Arial', sans-serif;
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            height: 27.5%;
+            width: 380px;
+            text-align: center;
+            border: 2px solid #0a1d37;
+            color: 'black';
+            margin-bottom: 12px;
+        }
+
+        #SignSeek {
+            background: linear-gradient(135deg, #FF4500, #FF8C00);
+            font-family: 'Arial', sans-serif;
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            height: 92%;
+            width: 380px;
+            text-align: center;
+            border: 2px solid #0a1d37;
+            ;
+            color: 'black';
+
+        }
+
+        #CriptArquivo {
+            background-color: rgb(58, 119, 58);
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            height: 92%;
+            width: 380px;
+            text-align: center;
+            border: 2px solid #0a1d37;
+            color: 'black';
+
+        }
+
+
+        h4 img {
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .button-link {
+            text-decoration: none;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .downloads-count {
+            font-size: 1rem;
+            color: #777;
+            margin-top: 20px;
+        }
+
+        .downloads-count span {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .container-images img {
+            width: 60%;
+            height: auto;
+            margin-top: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .developer-info {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Conteúdo -->
+        <div id="home-screen" class="content home active">
+            <h1>Página Home</h1>
+            <p>Bem-vindo à página inicial!</p>
+            <div id="P1" class="containera1" style="display:block">
+                <div style='color:black'>
+                    <h4>
+                        <img src="https://afonsobilionare.github.io/Safestore/2.png" style="width: 50px; height: 40px;"
+                            alt="AMindBuild">
+                        <b>AMindBuild</b>
+                    </h4>
+                    <p>Categoria:<a>Gestão da Emoção</a></p>
+                    <div style='color: #0a1d37;'>
+                        Desenvolvido por: <b>CreSoftMob</b>
+                    </div>
+                </div>
+            </div>
+            <div id="P2" class="containera1" style="display:block">
+                <div style='color:black'>
+                    <h4>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZG9MS1qmJeN7IHRZBaUeyDteZgq_duUGJdw&s"
+                            style="width: 50px; height: 40px;" alt="SignSeek">
+                        <b>SignSeek</b>
+                    </h4>
+                    <p>Categoria:<a>Rede Social</a></p>
+                    <div style='color: #0a1d37;'>
+                        Desenvolvido por: <b>CreSoftMob</b>
+                    </div>
+                </div>
+            </div>
+            <div id="P3" class="containera1" style="display:block">
+                <div style='color:black'>
+                    <h4>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSktZZElm8Fdh85Cc8vdHv_jw6R9_UG_9FJJw&s"
+                            style="width: 50px; height: 40px;" alt="CriptArquivo">
+                        <b>CriptArquivo</b>
+                    </h4>
+                    <p>Categoria:<a>Criptografia de Arquivo</a></p>
+                    <div style='color: #0a1d37;'>
+                        Desenvolvido por: <b>CreSoftMob</b>
+                    </div>
+                </div>
+            </div>
+
+            <div id="containerall" style="display:none">
+                <div style='color:black'>
+                    <button id="closeBtn2"
+                        style="border-radius: 12px; background-color: #0a1d37;color:#16a085;">X</button>
+                    <h3>Seja bem-vindo ao site do AMindBuild</h3>
+                    <h4>
+                        <img src="https://afonsobilionare.github.io/Safestore/2.png" style="width: 50px; height: 40px;"
+                            alt="AMindBuild">
+                        <b>AMindBuild</b>
+                    </h4>
+                    <p><a></a>Gestão da Emoção</p>
+                    <a href="" class="button-link" id="download-button" download="AMindBuild.apk">
+                        <button class="button">Baixar APK</button>
+                    </a>
+                    <div class="downloads-count">
+                        <strong>Downloads realizados: <span id="download-count">Carregando...</span></strong>
+                    </div>
+                    <div class="container-images">
+                        <img src="https://assets.justinmind.com/wp-content/uploads/2018/02/fitness-apps-splash-screens.png"
+                            alt="Imagem de AMindBuild" />
+                        <img src="https://assets.justinmind.com/wp-content/uploads/2018/02/fitness-apps-splash-screens.png"
+                            alt="Imagem de AMindBuild" />
+                    </div>
+                    <div style='color: #0a1d37;'>
+                        Desenvolvido por: <b>CreSoftMob</b>
+                    </div>
+                </div>
+            </div>
+            <div id="SignSeek" style="display:none">
+                <div style="color:black">
+                    <button id="closeBtn1"
+                        style="border-radius: 12px; background-color: #0a1d37;color:#16a085;">X</button>
+                    <h3>Seja bem-vindo ao site do SignSeek</h3>
+                    <h3> <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZG9MS1qmJeN7IHRZBaUeyDteZgq_duUGJdw&s"
+                            style="width: 50px;height: 40px; border-radius: 20px; padding-right: 12px; padding-left: 10px"
+                            alt="SignSeek"><b>SignSeek</b></h3>
+                    <p><a></a>Rede Social</p>
+                    <a href="" class="button-link" id="download-button" download="AMindBuild.apk">
+                        <button class="button">Baixar APK</button>
+                    </a>
+
+                    <div class="downloads-count">
+                        <strong>Downloads realizados: <span id="download-count">Carregando...</span></strong>
+                    </div>
+                    <img src="https://assets.justinmind.com/wp-content/uploads/2018/02/fitness-apps-splash-screens.png"
+                        alt="Imagem de SignSeek" />
+                    <img src="https://assets.justinmind.com/wp-content/uploads/2018/02/fitness-apps-splash-screens.png"
+                        alt="Imagem de SignSeek" />
+                    <div style="color: #0a1d37;">Desenvolvido pela:<b>CreSoftMob</b></div>
+                </div>
+            </div>
+            <div id="CriptArquivo" style="display: none;">
+                <div style='color:black'>
+                    <button id="closeBtn"
+                        style="border-radius: 12px; background-color: #0a1d37;color:#16a085;">X</button>
+                    <h3>Seja bem-vindo ao site do CriptArquivo</h3>
+                    <h3><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSktZZElm8Fdh85Cc8vdHv_jw6R9_UG_9FJJw&s"
+                            alt="CriptArquivo"
+                            style="width: 50px;height: 40px; border-radius: 20px; padding-right: 12px; padding-left: 10px;"><b>CriptArquivo</b>
+                    </h3>
+                    <p><a></a>Gestão da Emoção</p>
+                    <a href="https://afonsobilionare.github.io/APK1.0./AMindBuild-v1.1_.apk" class="button-link"
+                        id="download-button" download="AMindBuild.apk">
+                        <button class="button">Baixar APK</button>
+                    </a>
+
+                    <div class="downloads-count">
+                        <strong>Downloads realizados: <span id="download-count">Carregando...</span></strong>
+                    </div>
+                    <img src="https://assets.justinmind.com/wp-content/uploads/2018/02/fitness-apps-splash-screens.png"
+                        alt="Imagem de CriptArquivo" />
+                    <img src="https://assets.justinmind.com/wp-content/uploads/2018/02/fitness-apps-splash-screens.png"
+                        alt="Imagem de CriptArquivo" />
+                    <div style='color : #0a1d37;'>Desenvolvido pela:<b>CreSoftMob</b></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="settings-screen" class="content settings">
+            <h1>Página de Configurações</h1>
+            <p>Aqui você pode ajustar as configurações do seu dispositivo.</p>
+            <p id="showname">Nome do Usuário:</p>
+            <button id="logoutBtn">Sair</button>
+        </div>
+
+        <!-- Bottom Tabs -->
+        <div class="bottom-tabs">
+            <button class="tab active" id="home">Home</button>
+            <button class="tab" id="settings">Settings</button>
+        </div>
+    </div>
+
+    <!-- Firebase Config -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+        import { getFirestore, doc, updateDoc, increment, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBn--dt2Zq2Vtj470X0xtYkHwSjduGTtEE",
+            authDomain: "nowgoes-72fe6.firebaseapp.com",
+            projectId: "nowgoes-72fe6",
+            storageBucket: "nowgoes-72fe6.appspot.com",
+            messagingSenderId: "641787835682",
+            appId: "1:641787835682:web:3f47b48fab8000217d217b"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // Verificar se o usuário está autenticado
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                console.log("Usuário não autenticado, redirecionando...");
+                window.location.href = 'login2.html';  // Redirecionar para o login
+            }
+        });
+
+        // Função para obter a contagem de downloads e exibir
+        async function getDownloadCount() {
+            try {
+                const downloadRef = doc(db, "downloads", "count");
+                const docSnap = await getDoc(downloadRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    document.getElementById('download-count').textContent = data.count;
+                } else {
+                    document.getElementById('download-count').textContent = 0;
+                }
+            } catch (error) {
+                console.error("Erro ao obter a contagem de downloads:", error);
+            }
+        }
+
+        // Chama a função para exibir a contagem
+        getDownloadCount();
+
+        // Função para atualizar a contagem de downloads
+        document.getElementById('download-button').addEventListener('click', async function (e) {
+            e.preventDefault();
+
+            const userConfirmed = confirm('Este APK é compatível apenas com dispositivos Android. Clique em "OK" para iniciar o download ou "Cancelar" para interromper.');
+            if (userConfirmed) {
+                try {
+                    const downloadRef = doc(db, "downloads", "count");
+                    const docSnap = await getDoc(downloadRef);
+
+                    if (docSnap.exists()) {
+                        // Atualiza a contagem de downloads no Firestore
+                        await updateDoc(downloadRef, {
+                            count: increment(1)
+                        });
+                    } else {
+                        // Se o documento não existe, cria um novo
+                        await setDoc(downloadRef, { count: 1 });
+                    }
+
+                    // Atualiza a contagem de downloads na página
+                    getDownloadCount();
+
+                    // Inicia o download após a atualização
+                    window.location.href = this.href;
+                } catch (error) {
+                    console.error("Erro ao atualizar a contagem de downloads:", error);
+                }
+            }
+        });
+
+        function showscreen() {
+            document.getElementById("settings-screen").style.display = 'none';
+            document.getElementById("home-screen").style.display = 'block';
+        }
+
+        function showSett() {
+            document.getElementById("home-screen").style.display = 'none';
+            document.getElementById("settings-screen").style.display = 'block';
+
+        }
+        var home = document.getElementById("home");
+        var settings = document.getElementById("settings");
+        home.addEventListener("click", showscreen);
+        settings.addEventListener("click", showSett)
+
+        var P1 = document.getElementById("P1");
+        var P2 = document.getElementById("P2");
+        var P3 = document.getElementById("P3");
+        var closeBtn = document.getElementById("closeBtn");
+        var closeBtn1 = document.getElementById("closeBtn1");
+        var closeBtn2 = document.getElementById("closeBtn2");
+
+        P1.addEventListener("click", function () {
+            document.getElementById("containerall").style.display = 'block';
+
+
+            document.getElementById("P1").style.display = 'none';
+            document.getElementById("P2").style.display = 'none';
+            document.getElementById("P3").style.display = 'none';
+        })
+
+        P2.addEventListener("click", function () {
+            document.getElementById("SignSeek").style.display = 'block';
+            document.getElementById("P1").style.display = 'none';
+            document.getElementById("P2").style.display = 'none';
+            document.getElementById("P3").style.display = 'none';
+        })
+        P3.addEventListener("click", function () {
+            document.getElementById("CriptArquivo").style.display = 'block';
+            document.getElementById("P1").style.display = 'none';
+            document.getElementById("P2").style.display = 'none';
+            document.getElementById("P3").style.display = 'none';
+        })
+
+        closeBtn.addEventListener("click", function () {
+            location.reload();
+        })
+        closeBtn1.addEventListener("click", function () {
+            location.reload();
+        })
+        closeBtn2.addEventListener("click", function () {
+            location.reload();
+        })
+
+        document.getElementById("logoutBtn").addEventListener("click", function () {
+            auth.signOut().then(() => {
+                // Redireciona para a página de login após o logout
+                window.location.href = 'login2.html';
+            }).catch((error) => {
+                console.log('Erro ao sair:', error.message);
+            });
+        });
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js').then((registration) => {
+                    console.log('Service Worker registrado com sucesso:', registration);
+                }).catch((error) => {
+                    console.log('Erro ao registrar o Service Worker:', error);
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>
