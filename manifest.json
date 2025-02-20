@@ -2,7 +2,7 @@
     "name": "CreSoftMob",
     "short_name": "CreSoftMob",
     "description": "Company of Technology",
-    "start_url": "/",
+    "start_url": "/login2.html",
     "display": "standalone", 
     "background_color": "black",
     "theme_color": "#000000",
