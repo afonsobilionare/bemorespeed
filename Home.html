@@ -384,7 +384,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js"></script>
 
-    <script type="module">
+    <script>
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
         import { getFirestore, doc, updateDoc, increment, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
@@ -523,16 +523,7 @@
                 console.log('Erro ao sair:', error.message);
             });
         });
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js').then((registration) => {
-                    console.log('Service Worker registrado com sucesso:', registration);
-                }).catch((error) => {
-                    console.log('Erro ao registrar o Service Worker:', error);
-                });
-            });
-        }
+        
     </script>
 </body>
 

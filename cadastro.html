@@ -160,7 +160,7 @@
             }
         }
     </style>
-    <script type="module">
+    <script >
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
 
@@ -216,15 +216,7 @@
             });
         });
 
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js').then((registration) => {
-                    console.log('Service Worker registrado com sucesso:', registration);
-                }).catch((error) => {
-                    console.log('Erro ao registrar o Service Worker:', error);
-                });
-            });
-        }
+        
     </script>
 </head>
 
