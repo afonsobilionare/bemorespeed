@@ -160,6 +160,22 @@
             }
         }
     </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="logo">CreSoftMob-Store</div>
+        <h2>Cadastro</h2>
+        <form id="form-cadastro">
+            <input type="email" id="cadastro-email" placeholder="Digite seu email" required>
+            <input type="password" id="cadastro-senha" placeholder="Digite sua senha" required>
+            <button type="submit">Cadastrar</button>
+            <p id="error-message"></p>
+        </form>
+        <p class="subtitle">Já tem uma conta? <a href="login2.html" class="link">Clique aqui para fazer login</a></p>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
@@ -215,9 +231,8 @@
                     });
             });
         });
-
-        
     </script>
-</head>
 
-<body>
+</body>
+
+</html>
