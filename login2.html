@@ -295,17 +295,18 @@
             });
         });
 
-        if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
-      .then((registration) => {
-        console.log('Service Worker registrado com sucesso:', registration);
-      })
-      .catch((error) => {
-        console.log('Erro ao registrar o Service Worker:', error);
-      });
-  });
+        // Registro do Service Worker no navegador
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js')  // Não usar a barra (/) na frente
+    .then(function(registration) {
+      console.log('Service Worker registrado com sucesso:', registration);
+      registration.update(); // Forçar atualização, se necessário
+    })
+    .catch(function(error) {
+      console.log('Erro ao registrar o Service Worker:', error);
+    });
 }
+
 
     </script>
 </body>

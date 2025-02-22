@@ -7,10 +7,8 @@ self.addEventListener('install', (event) => {
         '/login2.html',      // Página de login
         '/Home.html',        // Página home
         '/cadastro.html',    // Página de cadastro
-        './1.png',           // Imagem
-        './2.png',           // Imagem
-        '/style.css',        // Estilos
-        '/script.js',        // Scripts
+        '/1.png',           // Imagem
+        '/2.png',           // Imagem
       ]);
     })
   );
